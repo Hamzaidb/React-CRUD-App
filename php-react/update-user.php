@@ -22,13 +22,13 @@ if (
     if (filter_var($useremail, FILTER_VALIDATE_EMAIL)) {
         $updateUser = mysqli_query($db_conn, "UPDATE `users` SET `user_name`='$username', `user_email`='$useremail' WHERE `id`='$data->id'");
         if ($updateUser) {
-            echo json_encode(["success" => 1, "msg" => "User Updated."]);
+            echo json_encode(["success" => 1, "msg" => "Les données ont été mise à jour."]);
         } else {
-            echo json_encode(["success" => 0, "msg" => "User Not Updated!"]);
+            echo json_encode(["success" => 0, "msg" => "Erreur de mise à jour!"]);
         }
     } else {
-        echo json_encode(["success" => 0, "msg" => "Invalid Email Address!"]);
+        echo json_encode(["success" => 0, "msg" => "Adresse email invalide!"]);
     }
 } else {
-    echo json_encode(["success" => 0, "msg" => "Please fill all the required fields!"]);
+    echo json_encode(["success" => 0, "msg" => "Remplissez tous les champs!"]);
 }

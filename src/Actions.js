@@ -1,9 +1,15 @@
+// importe les hooks useEffect et useState de la bibliothèque React.
 import { useEffect, useState } from "react";
 
+//définit un composant fonctionnel nommé Actions qui ne prend pas de props en entrée.
 export const Actions = () => {
+   
+ /*let [users, setUsers] = useState([]); : définit un state users 
+qui est un tableau vide 
+et une fonction setUsers pour mettre à jour ce state.*/
   let [users, setUsers] = useState([]);
 
-    //userLength is for showing the Data Loading message.
+    //userLength montre les données du chargement
   let [userLength, setUserLength] = useState(null);
 
   useEffect(() => {
@@ -24,7 +30,11 @@ export const Actions = () => {
       });
   }, []);
 
-  // Inserting a new user into the database.
+  /*
+ insère un nouvel utilisateur dans la base de données 
+ en effectuant une requête POST à l'API PHP. 
+ Elle met également à jour le state users et userLength en conséquence.
+  */
   const insertUser = (newUser) => {
     fetch("http://localhost/php-react/add-user.php", {
       method: "POST",
@@ -55,7 +65,7 @@ export const Actions = () => {
       });
   };
 
-  // Enabling the edit mode for a listed user.
+  // active le mode édition pour un utilisateur donné en mettant à jour le state users
   const editMode = (id) => {
     users = users.map((user) => {
       if (user.id === id) {
@@ -68,7 +78,7 @@ export const Actions = () => {
     setUsers(users);
   };
 
-  // Cance the edit mode.
+  // annule le mode édition pour un utilisateur donné en mettant à jour le state users
   const cancelEdit = (id) => {
     users = users.map((user) => {
       if (user.id === id) {
@@ -80,7 +90,7 @@ export const Actions = () => {
     setUsers(users);
   };
 
-  // Updating a user.
+  // met à jour les informations d'un utilisateur donné en effectuant une requête POST à l'API PHP.
   const updateUser = (userData) => {
     fetch("http://localhost/php-react/update-user.php", {
       method: "POST",
@@ -113,12 +123,24 @@ export const Actions = () => {
       });
   };
 
-  // Deleting a user.
+  // supprime un utilisateur donné
   const deleteUser = (theID) => {
-      // filter outing the user.
+      /*La fonction deleteUser prend un argument theID qui représente 
+      l'identifiant d'un utilisateur à supprimer de la liste des utilisateurs.
+        
+      Pour supprimer l'utilisateur, la fonction crée une nouvelle liste d'utilisateurs 
+      userDeleted en utilisant la méthode filter() qui parcourt chaque utilisateur dans 
+      la liste users et retourne un nouveau tableau contenant tous les utilisateurs qui 
+      n'ont pas l'identifiant égal à theID.
+        
+      => la fonction filtre tous les utilisateurs qui ont un identifiant différent 
+      de celui de l'utilisateur à supprimer. 
+      Le tableau résultant userDeleted contient donc tous les utilisateurs sauf celui à supprimer.
+      */
     let userDeleted = users.filter((user) => {
       return user.id !== theID;
     });
+    // envoyer une requête au serveur pour supprimer l'utilisateur de la base de données
     fetch("http://localhost/php-react/delete-user.php", {
       method: "POST",
       headers: {
@@ -130,20 +152,23 @@ export const Actions = () => {
         return res.json();
       })
       .then((data) => {
+        // si la suppression de l'utilisateur réussit dans la base de données
         if (data.success) {
-          setUsers(userDeleted);
+          setUsers(userDeleted);// mettre à jour la liste des utilisateurs en supprimant l'utilisateur supprimé
+          // s'il n'y a plus aucun utilisateur, mettre la variable userLength à 0 pour afficher le message "No data found
           if (users.length === 1) {
             setUserLength(0);
           }
         } else {
-          alert(data.msg);
+          alert(data.msg);// afficher un message d'alerte si la suppression a échoué
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err);// afficher l'erreur s'il y en a une
       });
   };
 
+  // retourne un objet contenant plusieurs méthodes et états qui seront utilisés dans d'autres parties de l'application
   return {
     users,
     editMode,
@@ -154,3 +179,13 @@ export const Actions = () => {
     userLength,
   };
 };
+
+/*
+users : L'état actuel de tous les utilisateurs récupérés depuis la base de données.
+editMode : Une méthode qui active le mode édition pour un utilisateur spécifique.
+cancelEdit : Une méthode qui annule le mode édition pour un utilisateur spécifique.
+updateUser : Une méthode qui met à jour les informations d'un utilisateur spécifique dans la base de données et dans l'état users.
+insertUser : Une méthode qui ajoute un nouvel utilisateur à la base de données et à l'état users.
+deleteUser : Une méthode qui supprime un utilisateur spécifique de la base de données et de l'état users.
+userLength : L'état qui indique si la récupération des utilisateurs depuis la base de données est en cours ou terminée.
+*/

@@ -12,10 +12,10 @@ if (isset($data->id) && is_numeric($data->id)) {
     $delID = $data->id;
     $deleteUser = mysqli_query($db_conn, "DELETE FROM `users` WHERE `id`='$delID'");
     if ($deleteUser) {
-        echo json_encode(["success" => 1, "msg" => "User Deleted"]);
+        echo json_encode(["success" => 1, "msg" => "Utilisateur supprimé"]);
     } else {
-        echo json_encode(["success" => 0, "msg" => "User Not Found!"]);
+        echo json_encode(["success" => 0, "msg" => "Utilisateur non trouvé"]);
     }
 } else {
-    echo json_encode(["success" => 0, "msg" => "User Not Found!"]);
+    echo json_encode(["success" => 0, "msg" => "Utilisateur non trouvé"]);
 }

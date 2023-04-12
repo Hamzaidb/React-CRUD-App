@@ -22,13 +22,13 @@ if (
         $insertUser = mysqli_query($db_conn, "INSERT INTO `users`(`user_name`,`user_email`) VALUES('$username','$useremail')");
         if ($insertUser) {
             $last_id = mysqli_insert_id($db_conn);
-            echo json_encode(["success" => 1, "msg" => "User Inserted.", "id" => $last_id]);
+            echo json_encode(["success" => 1, "msg" => "Utilisateur ajouté avec succes.", "id" => $last_id]);
         } else {
-            echo json_encode(["success" => 0, "msg" => "User Not Inserted!"]);
+            echo json_encode(["success" => 0, "msg" => "Erreur de l'ajout"]);
         }
     } else {
-        echo json_encode(["success" => 0, "msg" => "Invalid Email Address!"]);
+        echo json_encode(["success" => 0, "msg" => "Adresse email invalide!"]);
     }
 } else {
-    echo json_encode(["success" => 0, "msg" => "Please fill all the required fields!"]);
+    echo json_encode(["success" => 0, "msg" => "Veuillez remplir tous les champs!"]);
 }

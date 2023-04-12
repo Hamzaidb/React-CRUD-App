@@ -1,24 +1,28 @@
 import { useState, useContext } from "react";
 import { AppContext } from "../Context";
 const Form = () => {
+// Obtenir la fonction d'insertion de l'utilisateur depuis le contexte global.
   const { insertUser } = useContext(AppContext);
+
+  // Initialiser un nouvel objet utilisateur.
   const [newUser, setNewUser] = useState({});
 
-  // Storing the Insert User Form Data.
+  // Stocker les données du formulaire d'insertion de l'utilisateur.
   const addNewUser = (e, field) => {
     setNewUser({
       ...newUser,
-      [field]: e.target.value,
+      [field]: e.target.value,// Enregistrer la nouvelle valeur pour un champ donné.
     });
   };
 
-  // Inserting a new user into the Database.
+  // Insérer un nouvel utilisateur dans la base de données.
   const submitUser = (e) => {
-    e.preventDefault();
-    insertUser(newUser);
-    e.target.reset();
+    e.preventDefault();// Empêcher le comportement par défaut de la soumission du formulaire.
+    insertUser(newUser);// Insérer le nouvel utilisateur en utilisant la fonction d'insertion obtenue du contexte global.
+    e.target.reset();// Réinitialiser le formulaire.
   };
 
+  // Rendre le formulaire d'insertion de l'utilisateur.
   return (
     <form className="insertForm" onSubmit={submitUser}>
       <h2>Insérer un utilisateur</h2>
